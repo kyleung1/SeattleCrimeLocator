@@ -1,0 +1,29 @@
+  h1 {
+    font-family: 'Lucida Console", "Courier New", monospace';
+  }
+  
+  div {
+    background-color: white;
+    width: 300px;
+    height: 450px;
+    border: 1px solid lightgreen;
+    padding: 50px;
+    margin: auto;
+    border-radius: 25px;
+    position: relative;
+  }
+
+  .about {
+    background-color: white;
+    width: 300px;
+    height: 450px;
+    border: 1px solid lightcoral;
+    padding: 50px;
+    margin: auto;
+    border-radius: 25px;
+    position: relative;
+  }
+
+  a {
+    text-decoration: none;
+  }
