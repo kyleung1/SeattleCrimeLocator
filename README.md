@@ -1,6 +1,6 @@
 Seattle Crime Locator
+
 6/25/2022
-Kyle Leung
 
 Link to Deployment: https://kyleung1.github.io/SeattleCrimeLocator/
 
