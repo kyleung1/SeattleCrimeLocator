@@ -19,6 +19,35 @@ function distance (lon1, lat1, lon2, lat2) {
     }
 
 }
+
+function initMap(lon, lat) {
+    //https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html
+    document.getElementById('map').innerHTML = '';
+    var map = new ol.Map({
+        target: "map",
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM(),
+          }),
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([lon, lat]),
+          zoom: 15,
+        }),
+      });
+    var layer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [
+                new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon,lat]))
+                })
+            ]
+        })
+    })
+    map.addLayer(layer);
+}
+
+
 function ip () {
     //api for location
     var request = new XMLHttpRequest()
@@ -41,10 +70,14 @@ function ip () {
                     let min_dis_off = 'error';
                     let min_dis_dat = 'error';
                     let min_dis_pp = 'error';
+                    let min_lat = 0;
+                    let min_lon = 0;
                     const distances = [];
                     const offenses = [];
                     const dates = [];
                     const mcpp = [];
+                    const lons = [];
+                    const lats = [];
 
                     let count = 0;
                     data_c.forEach(incident => {
@@ -58,6 +91,8 @@ function ip () {
                         offenses[count] = c_name;
                         dates[count] = c_date;
                         mcpp[count] = c_pp;
+                        lons[count] = c_lon;
+                        lats[count] = c_lat;
                         count++;
                     })
                     
@@ -67,6 +102,8 @@ function ip () {
                             min_dis_off = offenses[i];
                             min_dis_dat = dates[i];
                             min_dis_pp = mcpp[i];
+                            min_lat = lats[i];
+                            min_lon = lons[i];
                             
                         }
                         
@@ -77,7 +114,10 @@ function ip () {
                     document.getElementById('distance').innerHTML = 'Distance from you: ' + min_dis/1000 + ' km';
                     document.getElementById('date').innerHTML = 'Date and time of offense: ' + min_dis_dat;
                     document.getElementById('location').innerHTML = 'General Location: ' + min_dis_pp;
-                
+                    
+                    //sends to map function
+                    initMap(min_lon, min_lat)
+
                 }
                 else {
                     console.log('error crime')
@@ -109,8 +149,6 @@ function geo() {
         if (request_geo.status >= 200 && request_geo.status < 400) {
             let long = data_g[0].lon;
             let lat = data_g[0].lat;
-            console.log(long)
-            console.log(lat)
 
             //api for king county open data
             var request_crime = new XMLHttpRequest()
@@ -123,10 +161,14 @@ function geo() {
                     let min_dis_off = 'error';
                     let min_dis_dat = 'error';
                     let min_dis_pp = 'error';
+                    let min_lat = 0;
+                    let min_lon = 0;
                     const distances = [];
                     const offenses = [];
                     const dates = [];
                     const mcpp = [];
+                    const lons = [];
+                    const lats = [];
 
                     let count = 0;
                     data_c.forEach(incident => {
@@ -140,6 +182,8 @@ function geo() {
                         offenses[count] = c_name;
                         dates[count] = c_date;
                         mcpp[count] = c_pp;
+                        lons[count] = c_lon;
+                        lats[count] = c_lat;
                         count++;
                     })
                     
@@ -149,7 +193,8 @@ function geo() {
                             min_dis_off = offenses[i];
                             min_dis_dat = dates[i];
                             min_dis_pp = mcpp[i];
-                            
+                            min_lat = lats[i];
+                            min_lon = lons[i];
                         }
                         
                     }
@@ -159,7 +204,9 @@ function geo() {
                     document.getElementById('distance').innerHTML = 'Distance from you: ' + min_dis/1000 + ' km';
                     document.getElementById('date').innerHTML = 'Date and time of offense: ' + min_dis_dat;
                     document.getElementById('location').innerHTML = 'General Location: ' + min_dis_pp;
-                
+                    
+                    //sends to map function
+                    initMap(min_lon, min_lat)
                 }
                 else {
                     console.log('error crime')

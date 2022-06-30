@@ -2,10 +2,23 @@
 
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="styles.css" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .map {
+        height: 600px;
+        width: 800px;
+        margin: auto;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
     <title>Seattle Nearby Crime</title>
   </head>
   <body>
@@ -14,45 +27,54 @@
       <h2>Seattle Washington</h2>
     </center>
     <br />
-    <div>
-      <center>
-        <button onclick="ip()">Use My IP Address</button>
-        <h2>or</h2>
-        <input type="text" id="addy" placeholder="Enter Address" />
-        <input type="button" id="btn" value="GO!" />
-        <p>
-          Note: When entering the address make sure to add name of place if not
-          a residential property. Might work best to enter just the name of
-          place instead of address in this case.
-        </p>
-        <p>Note: Only locates crimes in Seattle area.</p>
-        <br />
-        <p id="offense" style="color: blue"></p>
-        <p id="distance" style="color: blue"></p>
-        <p id="date" style="color: blue"></p>
-        <p id="location" style="color: blue"></p>
-      </center>
+    <div id="container">
+      <div class="locate" id="first">
+        <center>
+          <button onclick="ip()">Use My IP Address</button>
+          <h2>or</h2>
+          <input type="text" id="addy" placeholder="Enter Address" />
+          <input type="button" id="btn" value="GO!" />
+          <p>
+            Note: When entering the address make sure to add name of place if
+            not a residential property. Might work best to enter just the name
+            of place instead of address in this case.
+          </p>
+          <p>Note: Only locates crimes in Seattle area.</p>
+          <br />
+          <p id="offense" style="color: blue"></p>
+          <p id="distance" style="color: blue"></p>
+          <p id="date" style="color: blue"></p>
+          <p id="location" style="color: blue"></p>
+        </center>
+      </div>
+      <div class="about" id="second">
+        <center>
+          <h2>About</h2>
+          <p>
+            This app uses data from the
+            <a href="https://data.seattle.gov/">Seattle Open Data</a> portal.
+            The dataset used in this app is the
+            <a
+              href="https://data.seattle.gov/Public-Safety/SPD-Crime-Data-2008-Present/tazs-3rd5"
+              >SPD Crime Data</a
+            >
+            dataset. This dataset is updated once every twenty-four hours and
+            will yield different results each day. This app was made as a
+            personal project by
+            <a href="https://www.linkedin.com/in/kyle-leung412/">Kyle Leung</a>.
+          </p>
+          <br />
+          <img src="images/seattle.jfif" alt="seattle" width="300px" />
+        </center>
+      </div>
     </div>
-    <br />
-    <div class="about">
-      <center>
-        <h2>About</h2>
-        <p>
-          This app uses data from the
-          <a href="https://data.seattle.gov/">Seattle Open Data</a> portal. The
-          dataset used in this app is the
-          <a
-            href="https://data.seattle.gov/Public-Safety/SPD-Crime-Data-2008-Present/tazs-3rd5"
-            >SPD Crime Data</a
-          >
-          dataset. This dataset is updated once every twenty-four hours and will
-          yield different results each day. This app was made as a personal
-          project by
-          <a href="https://www.linkedin.com/in/kyle-leung412/">Kyle Leung</a>.
-        </p>
-        <br />
-        <img src="images/seattle.jfif" alt="seattle" width="300px" />
-      </center>
+
+    <div class="map-border">
+      <h2 id="map-title">Map of Crime Will Appear Here</h2>
+      <p id="map-title">
+        Note: A lightblue marker is placed where the crime occurred.
+      </p>
+      <div class="map" id="map"></div>
     </div>
 
     <script src="location.js"></script>
